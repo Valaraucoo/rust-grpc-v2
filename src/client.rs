@@ -8,7 +8,8 @@ pub mod hello {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let mut client = HelloClient::connect("http://[::1]:8080").await?;
+    let addr = "http://[::1]:8080".to_string();
+    let mut client = HelloClient::connect(addr).await?;
 
     let request = Request::new(HelloRequest {
         name: "Kamil".to_string(),
