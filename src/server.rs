@@ -1,7 +1,10 @@
 use tonic::transport::Server;
 use tonic::{Request, Response, Status};
 
-use hello::{HelloRequest, HelloResponse, hello_server::{Hello, HelloServer}};
+use hello::{
+    hello_server::{Hello, HelloServer},
+    HelloRequest, HelloResponse,
+};
 
 pub mod hello {
     tonic::include_proto!("hello");
@@ -12,11 +15,14 @@ pub struct Service {}
 
 #[tonic::async_trait]
 impl Hello for Service {
-    async fn hello_world(&self, request : Request<HelloRequest>) -> Result<Response<HelloResponse>, Status> {
+    async fn hello_world(
+        &self,
+        request: Request<HelloRequest>,
+    ) -> Result<Response<HelloResponse>, Status> {
         let req = request.into_inner();
 
         let response = HelloResponse {
-            message: "Hello, {}!".to_string().replace("{}", &req.name)
+            message: "Hello, {}!".to_string().replace("{}", &req.name),
         };
 
         println!("Received request: name={:?}", req.name);
